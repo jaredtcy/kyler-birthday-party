@@ -33,7 +33,7 @@
         <img src="photo1715669881.jpeg" alt="Birthday Party Image">
         <p><strong>Date:</strong> June 10, 2024</p>
         <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
-        <p><strong>Address:</strong> Tampines </p>
+        <p><strong>Address:</strong> 123 Party Lane, Fun Town, USA</p>
     </div>
 
     <form id="rsvpForm">
@@ -51,27 +51,51 @@
     <script>
         document.getElementById('rsvpForm').addEventListener('submit', async (event) => {
             event.preventDefault();
+            console.log("Form submitted"); // Debugging log
             const name = document.getElementById('name').value;
             const guestCount = document.getElementById('guestCount').value;
+            console.log("Name:", name); // Debugging log
+            console.log("Guest Count:", guestCount); // Debugging log
 
-            const response = await fetch('https://api.sheety.co/defe23c01a192e8f7135f644813fa04d/guest/sheet1', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ rsvp: { name, guestCount: Number(guestCount) } })
-            });
+            const apiUrl = 'https://api.sheety.co/defe23c01a192e8f7135f644813fa04d/rsvp/rsvp'; // Replace with your actual Sheety API URL
+            const data = { rsvp: { name, guestCount: Number(guestCount) } };
 
-            if (response.ok) {
-                window.location.href = 'thank-you.html';
-            } else {
+            console.log("Sending data to Sheety API:", data); // Debugging log
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    console.log("Form successfully submitted"); // Debugging log
+                    window.location.href = 'thank-you.html';
+                } else {
+                    const errorData = await response.json();
+                    console.error("Error:", errorData); // Debugging log
+                    alert('There was an error submitting your RSVP. Please try again.');
+                }
+            } catch (error) {
+                console.error("Fetch error:", error); // Debugging log
                 alert('There was an error submitting your RSVP. Please try again.');
             }
         });
 
         async function updateGuestCount() {
-            const response = await fetch('https://api.sheety.co/defe23c01a192e8f7135f644813fa04d/guest/sheet1');
-            const result = await response.json();
-            const totalGuests = result.rsvp.reduce((sum, row) => sum + row.guestCount, 0);
-            document.getElementById('totalGuests').textContent = totalGuests;
+            const apiUrl = 'https://api.sheety.co/defe23c01a192e8f7135f644813fa04d/rsvp/rsvp'; // Replace with your actual Sheety API URL
+            try {
+                const response = await fetch(apiUrl);
+                const result = await response.json();
+                console.log("Fetched data:", result); // Debugging log
+                const totalGuests = result.rsvp.reduce((sum, row) => sum + row.guestCount, 0);
+                document.getElementById('totalGuests').textContent = totalGuests;
+            } catch (error) {
+                console.error("Error fetching guest count:", error); // Debugging log
+            }
         }
 
         updateGuestCount();
