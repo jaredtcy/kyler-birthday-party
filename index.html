@@ -33,7 +33,7 @@
         <img src="photo1715669881.jpeg" alt="Birthday Party Image">
         <p><strong>Date:</strong> June 10, 2024</p>
         <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
-        <p><strong>Address:</strong> Tampines</p>
+        <p><strong>Address:</strong> Tampines </p>
     </div>
 
     <form id="rsvpForm">
@@ -60,8 +60,11 @@
                 body: JSON.stringify({ rsvp: { name, guestCount: Number(guestCount) } })
             });
 
-            const result = await response.json();
-            updateGuestCount();
+            if (response.ok) {
+                window.location.href = 'thank-you.html';
+            } else {
+                alert('There was an error submitting your RSVP. Please try again.');
+            }
         });
 
         async function updateGuestCount() {
