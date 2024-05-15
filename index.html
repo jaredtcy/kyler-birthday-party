@@ -12,8 +12,8 @@
             background-image: url('opacity.png');
             background-size: cover; 
             background-repeat: no-repeat; /* Prevent the background from repeating */
-            background-position: center      
-           /* background-color: #ADD8E6;
+            background-position: center;   
+            /* background-color: #ADD8E6;
             color: black; Change text color to white for better readability */
         }
         .party-details {
@@ -42,6 +42,21 @@
             border: 1px solid black;
             color: black;
             padding: 8px;
+            text-align: center;
+        }
+        .guest-counter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .guest-counter button {
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+        }
+        .guest-counter input {
+            width: 50px;
             text-align: center;
         }
     </style>
@@ -78,7 +93,11 @@
         <input type="text" id="name" name="name" required>
         
         <label for="guestCount"><b>Number of Guests (including you):</b></label>
-        <input type="number" id="guestCount" name="guestCount" min="1" required>
+        <div class="guest-counter">
+            <button type="button" onclick="decrementGuestCount()">-</button>
+            <input type="text" id="guestCount" name="guestCount" value="1" readonly>
+            <button type="button" onclick="incrementGuestCount()">+</button>
+        </div>
         
         <p class="instruction"><b>Please click the submit button only once.</b></p>
         <button type="submit">Submit</button>
@@ -87,6 +106,20 @@
     <h2>Total Guests Attending: <span id="totalGuests">0</span></h2>
 
     <script>
+        function incrementGuestCount() {
+            const guestCountInput = document.getElementById('guestCount');
+            let currentValue = parseInt(guestCountInput.value);
+            guestCountInput.value = currentValue + 1;
+        }
+
+        function decrementGuestCount() {
+            const guestCountInput = document.getElementById('guestCount');
+            let currentValue = parseInt(guestCountInput.value);
+            if (currentValue > 1) {
+                guestCountInput.value = currentValue - 1;
+            }
+        }
+
         document.getElementById('rsvpForm').addEventListener('submit', async (event) => {
             event.preventDefault();
             console.log("Form submitted"); // Debugging log
