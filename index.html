@@ -132,7 +132,7 @@
             console.log("Name:", name); // Debugging log
             console.log("Guest Count:", guestCount); // Debugging log
 
-            const apiUrl = 'https://api.sheety.co/defe23c01a192e8f7135f644813fa04d/rsvp/rsvp'; 
+            const apiUrl = 'https://api.sheety.co/e54144d54f519470d5294b0fd3b26398/rsvp/rsvp'; 
             const data = { rsvp: { name, guestCount: Number(guestCount) } };
 
             console.log("Sending data to Sheety API:", data); // Debugging log
@@ -161,7 +161,7 @@
         });
 
         async function updateGuestCount() {
-            const apiUrl = 'https://api.sheety.co/defe23c01a192e8f7135f644813fa04d/rsvp/rsvp'; 
+            const apiUrl = 'https://api.sheety.co/e54144d54f519470d5294b0fd3b26398/rsvp/rsvp'; 
             try {
                 const response = await fetch(apiUrl);
                 const result = await response.json();
